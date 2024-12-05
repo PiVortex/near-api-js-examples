@@ -5,7 +5,6 @@ const { connect } = nearAPI;
 
 // Load environment variables
 dotenv.config({ path: ".env" });
-const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
 // Create a connection to NEAR testnet
