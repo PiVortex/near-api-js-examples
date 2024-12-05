@@ -1,10 +1,10 @@
 import * as nearAPI from "near-api-js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 const { connect, keyStores, KeyPair, utils } = nearAPI;
 
 // Load environment variables
-dotenv.config({ path: '.env' });
+dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
@@ -15,12 +15,12 @@ await myKeyStore.setKey("testnet", accountId, keyPair);
 
 // Create a connection to NEAR testnet
 const connectionConfig = {
-    networkId: "testnet",
-    keyStore: myKeyStore, 
-    nodeUrl: "https://rpc.testnet.near.org",
-    walletUrl: "https://testnet.mynearwallet.com/",
-    helperUrl: "https://helper.testnet.near.org",
-    explorerUrl: "https://testnet.nearblocks.io",
+  networkId: "testnet",
+  keyStore: myKeyStore,
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://testnet.mynearwallet.com/",
+  helperUrl: "https://helper.testnet.near.org",
+  explorerUrl: "https://testnet.nearblocks.io",
 };
 const nearConnection = await connect(connectionConfig);
 
@@ -33,24 +33,24 @@ console.log(accessKeys);
 
 // Add full access key
 // Generate a new key pair
-const newFullKeyPair = KeyPair.fromRandom('ed25519');
+const newFullKeyPair = KeyPair.fromRandom("ed25519");
 const newFullPublicKey = newFullKeyPair.getPublicKey().toString();
 
 const addFullKeyResult = await account.addKey(
-    newFullPublicKey, // The new public key ed25519:2ASWc...
+  newFullPublicKey, // The new public key ed25519:2ASWc...
 );
 console.log(addFullKeyResult);
 
 // Add function call access key
 // Generate a new key pair
-const newFunctionKeyPair = KeyPair.fromRandom('ed25519');
+const newFunctionKeyPair = KeyPair.fromRandom("ed25519");
 const newFunctionPublicKey = newFunctionKeyPair.getPublicKey().toString();
 
 const addFunctionKeyResult = await account.addKey(
-    newFunctionPublicKey, // The new public key ed25519:2ASWc...
-    "example-contract.testnet", // Contract this key is allowed to call (optional)
-    "example_method", // Methods this key is allowed to call (optional)
-    utils.format.parseNearAmount("0.25") // Gas allowance key can use to call methods (optional)
+  newFunctionPublicKey, // The new public key ed25519:2ASWc...
+  "example-contract.testnet", // Contract this key is allowed to call (optional)
+  "example_method", // Methods this key is allowed to call (optional)
+  utils.format.parseNearAmount("0.25"), // Gas allowance key can use to call methods (optional)
 );
 console.log(addFunctionKeyResult);
 

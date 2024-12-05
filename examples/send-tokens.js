@@ -1,10 +1,10 @@
 import * as nearAPI from "near-api-js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 const { connect, keyStores, KeyPair, utils } = nearAPI;
 
 // Load environment variables
-dotenv.config({ path: '.env' });
+dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
@@ -15,12 +15,12 @@ await myKeyStore.setKey("testnet", accountId, keyPair);
 
 // Create a connection to NEAR testnet
 const connectionConfig = {
-    networkId: "testnet",
-    keyStore: myKeyStore, 
-    nodeUrl: "https://rpc.testnet.near.org",
-    walletUrl: "https://testnet.mynearwallet.com/",
-    helperUrl: "https://helper.testnet.near.org",
-    explorerUrl: "https://testnet.nearblocks.io",
+  networkId: "testnet",
+  keyStore: myKeyStore,
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://testnet.mynearwallet.com/",
+  helperUrl: "https://helper.testnet.near.org",
+  explorerUrl: "https://testnet.nearblocks.io",
 };
 const nearConnection = await connect(connectionConfig);
 
@@ -29,6 +29,6 @@ const account = await nearConnection.account(accountId); // example-account.test
 
 const sendTokensResult = await account.sendMoney(
   "receiver-account.testnet", // Receiver account
-  utils.format.parseNearAmount("1") // Amount being sent in yoctoNEAR
+  utils.format.parseNearAmount("1"), // Amount being sent in yoctoNEAR
 );
 console.log(sendTokensResult);

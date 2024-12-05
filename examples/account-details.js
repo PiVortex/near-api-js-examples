@@ -1,10 +1,10 @@
 import * as nearAPI from "near-api-js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 const { connect } = nearAPI;
 
 // Load environment variables
-dotenv.config({ path: '.env' });
+dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
@@ -23,11 +23,11 @@ const nearConnection = await connect(connectionConfig);
 const account = await nearConnection.account(accountId); // example-account.testnet
 
 // Gets the account balance in yoctoNEAR for an account
-// Includes the total balance, stateStaked, staked, and available 
+// Includes the total balance, stateStaked, staked, and available
 const accountBalance = await account.getAccountBalance();
 console.log(accountBalance);
 
-// Returns basic account information 
+// Returns basic account information
 // and the basic block details at which it was queried
 const accountState = await account.state();
 console.log(accountState);
