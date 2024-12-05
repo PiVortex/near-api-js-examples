@@ -1,7 +1,8 @@
 import * as nearAPI from "near-api-js";
 import dotenv from 'dotenv';
 import fs from 'fs';
-const { connect, keyStores, KeyPair, utils } = nearAPI;
+
+const { connect, keyStores, KeyPair } = nearAPI;
 
 // Load environment variables
 dotenv.config({ path: '.env' });

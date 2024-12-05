@@ -3,13 +3,6 @@ import dotenv from 'dotenv';
 
 const { connect } = nearAPI;
 
-// Random account ID generator
-const generateTestnetName = () => Math.random().toString(36).substring(2, 10) + '.testnet';
-
-// Random sub account ID generator
-const generateSubAccountId = (accountId) => 
-    `sub-${Math.random().toString(36).substring(2, 10)}.${accountId}`;
-
 // Load environment variables
 dotenv.config({ path: '.env' });
 const privateKey = process.env.PRIVATE_KEY;
