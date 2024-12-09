@@ -1,32 +1,23 @@
-import * as nearAPI from "near-api-js";
+import { connect, keyStores, KeyPair } from "near-api-js";
 import dotenv from "dotenv";
 import fs from "fs";
 
-const { connect, keyStores, KeyPair } = nearAPI;
-
-// Load environment variables
 dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
-// Create a keystore and add the key pair via the private key string
 const myKeyStore = new keyStores.InMemoryKeyStore();
 const keyPair = KeyPair.fromString(privateKey);
 await myKeyStore.setKey("testnet", accountId, keyPair);
 
-// Create a connection to NEAR testnet
 const connectionConfig = {
   networkId: "testnet",
   keyStore: myKeyStore,
   nodeUrl: "https://rpc.testnet.near.org",
-  walletUrl: "https://testnet.mynearwallet.com/",
-  helperUrl: "https://helper.testnet.near.org",
-  explorerUrl: "https://testnet.nearblocks.io",
 };
 const nearConnection = await connect(connectionConfig);
 
-// Create an account object
-const account = await nearConnection.account(accountId); // example-account.testnet
+const account = await nearConnection.account(accountId);
 
 // Make a view call to a contract
 const viewCallResult = await account.viewFunction({
@@ -41,7 +32,9 @@ const contractCallResult = await account.functionCall({
   methodName: "add_message", // Method to call
   args: {
     text: "Hello, world!",
-  },
+  }, // Arguments for the method
+  gas: 100000000000000, // Optional: gas limit
+  deposit: 0, // Optional: deposit in yoctoNEAR
 });
 console.log(contractCallResult);
 

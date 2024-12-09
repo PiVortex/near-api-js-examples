@@ -1,6 +1,4 @@
-import * as nearAPI from "near-api-js";
-
-const { utils } = nearAPI;
+import { utils } from "near-api-js";
 
 // Convert NEAR amount into yoctoNEAR
 const amountInYoctoNear = utils.format.parseNearAmount("1");

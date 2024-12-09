@@ -1,7 +1,5 @@
-import * as nearAPI from "near-api-js";
+import { connect, keyStores, KeyPair, utils } from "near-api-js";
 import dotenv from "dotenv";
-
-const { connect, keyStores, KeyPair, utils } = nearAPI;
 
 // Load environment variables
 dotenv.config({ path: ".env" });
@@ -18,16 +16,13 @@ const connectionConfig = {
   networkId: "testnet",
   keyStore: myKeyStore,
   nodeUrl: "https://rpc.testnet.near.org",
-  walletUrl: "https://testnet.mynearwallet.com/",
-  helperUrl: "https://helper.testnet.near.org",
-  explorerUrl: "https://testnet.nearblocks.io",
 };
 const nearConnection = await connect(connectionConfig);
 
 // Create an account object
 const account = await nearConnection.account(accountId); // example-account.testnet
 
-// Test the signer with transferring 1 NEAR
+// Test the signer by transferring NEAR
 const sendTokensResult = await account.sendMoney(
   "receiver-account.testnet",
   utils.format.parseNearAmount("1"),

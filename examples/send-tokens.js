@@ -13,14 +13,11 @@ const myKeyStore = new keyStores.InMemoryKeyStore();
 const keyPair = KeyPair.fromString(privateKey);
 await myKeyStore.setKey("testnet", accountId, keyPair);
 
-// Create a connection to NEAR testnet
+// Create a connection to the NEAR testnet
 const connectionConfig = {
   networkId: "testnet",
   keyStore: myKeyStore,
   nodeUrl: "https://rpc.testnet.near.org",
-  walletUrl: "https://testnet.mynearwallet.com/",
-  helperUrl: "https://helper.testnet.near.org",
-  explorerUrl: "https://testnet.nearblocks.io",
 };
 const nearConnection = await connect(connectionConfig);
 

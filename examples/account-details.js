@@ -5,7 +5,7 @@ const connection = await connect({
   nodeUrl: "https://rpc.testnet.near.org",
 });
 
-const account = await connection.account("influencer.testnet");
+const account = await connection.account("example-account.testnet");
 
 // Gets the total, staked and available balance in yoctoNEAR
 const accountBalance = await account.getAccountBalance();
