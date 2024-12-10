@@ -11,7 +11,7 @@ ACCOUNT_ID=your-account-id.testnet // The account ID to use for the examples
 PRIVATE_KEY=ed25519:5YPd... // The private key for the account
 ```
 
-To run `credentials-directory.js` you will also need to create a file named `credentials-file.json` in the root of the project. This file needs to contain a `private_key` field with a valid private key for the account in the `.env` file. 
+To run `credentials-directory.js` you will also need to create a file named `credentials-file.json` in the root of the project. This file needs to contain a `private_key` field with a valid private key for the account in the `.env` file.
 
 ## Run the examples
 

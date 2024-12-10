@@ -24,6 +24,7 @@ const nearConnection = await connect(connectionConfig);
 // Create an account object
 const account = await nearConnection.account(accountId); // example-account.testnet
 
+// Send NEAR tokens to another account
 const sendTokensResult = await account.sendMoney(
   "receiver-account.testnet", // Receiver account
   utils.format.parseNearAmount("1"), // Amount being sent in yoctoNEAR

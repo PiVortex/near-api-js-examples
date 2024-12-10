@@ -26,6 +26,7 @@ console.log(accessKeys);
 // Generate a new key pair
 const newFullKeyPair = KeyPair.fromRandom("ed25519");
 const newFullPublicKey = newFullKeyPair.getPublicKey().toString();
+console.log(newFullPublicKey);
 
 const addFullKeyResult = await account.addKey(
   newFullPublicKey, // The new public key ed25519:2ASWc...
@@ -36,11 +37,12 @@ console.log(addFullKeyResult);
 // Generate a new key pair
 const newFunctionKeyPair = KeyPair.fromRandom("ed25519");
 const newFunctionPublicKey = newFunctionKeyPair.getPublicKey().toString();
+console.log(newFunctionPublicKey);
 
 const addFunctionKeyResult = await account.addKey(
   newFunctionPublicKey, // The new public key ed25519:2ASWc...
   "example-contract.testnet", // Contract this key is allowed to call (optional)
-  "example_method", // Methods this key is allowed to call (optional)
+  ["example_method"], // Methods this key is allowed to call (optional)
   utils.format.parseNearAmount("0.25"), // Gas allowance key can use to call methods (optional)
 );
 console.log(addFunctionKeyResult);

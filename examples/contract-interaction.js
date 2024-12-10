@@ -1,4 +1,4 @@
-import { connect, keyStores, KeyPair } from "near-api-js";
+import { connect, keyStores, KeyPair, providers } from "near-api-js";
 import dotenv from "dotenv";
 import fs from "fs";
 
@@ -20,13 +20,24 @@ const nearConnection = await connect(connectionConfig);
 const account = await nearConnection.account(accountId);
 
 // Make a view call to a contract
-const viewCallResult = await account.viewFunction({
-  contractId: "guestbook.near-examples.testnet", // Contract account ID
-  methodName: "total_messages", // Method to call
-  // No args in this case
+// Set up a new provider
+const url = `https://rpc.testnet.near.org`;
+const provider = new providers.JsonRpcProvider({ url });
+
+const viewCallResponse = await provider.query({
+  request_type: "call_function",
+  account_id: "guestbook.near-examples.testnet", // Contract account ID
+  method_name: "total_messages", // Method to call
+  args_base64: "", // No args in this case (optional)
+  finality: "optimistic", // Optimistic finality (or 'final' for final finality)
 });
+
+const viewCallResult = JSON.parse(
+  Buffer.from(viewCallResponse.result).toString(),
+); // Parse the result as JSON
 console.log(viewCallResult);
 
+// Make a function call to a contract
 const contractCallResult = await account.functionCall({
   contractId: "guestbook.near-examples.testnet", // Contract account ID
   methodName: "add_message", // Method to call
