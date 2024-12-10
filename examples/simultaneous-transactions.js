@@ -20,24 +20,31 @@ const account = await nearConnection.account(accountId);
 
 // Send independent transactions simultaneously to different receivers
 // Prepare the transactions
-const transactionPromises = [
-  account.signAndSendTransaction({
-    receiverId: "guestbook.near-examples.testnet",
-    actions: [
-      transactions.functionCall(
-        "add_message",
-        ["Hello, world!"],
-        100000000000000,
-        0,
-      ),
-    ],
-  }),
-  account.signAndSendTransaction({
-    receiverId: "counter.near-examples.testnet",
-    actions: [transactions.functionCall("increment", [], 100000000000000, 0)],
-  }),
-];
+const args = Buffer.from(JSON.stringify({ text: "Hello, world!" }));
+const tx1 = account.signAndSendTransaction({
+  receiverId: "guestbook.near-examples.testnet",
+  actions: [
+    transactions.functionCall(
+      "add_message", // Method name
+      args, // Arguments
+      100000000000000, // Gas
+      0, // Deposit
+    ),
+  ],
+});
+
+const tx2 = account.signAndSendTransaction({
+  receiverId: "counter.near-examples.testnet",
+  actions: [
+    transactions.functionCall(
+      "increment", // Method name
+      [], // Arguments
+      100000000000000, // Gas
+      0, // Deposit
+    ),
+  ],
+});
 
 // Send the transactions simultaneously
-const transactionsResults = await Promise.all(transactionPromises);
+const transactionsResults = await Promise.all([tx1, tx2]);
 console.log(transactionsResults);

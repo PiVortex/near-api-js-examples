@@ -18,13 +18,13 @@ const nearConnection = await connect(connectionConfig);
 
 const account = await nearConnection.account(accountId);
 
-// Send a batch of actions to a receiver
+// Send a batch of actions to a single receiver
 // Prepare the actions
 const callAction = transactions.functionCall(
-  "increment",
-  [],
-  100000000000000,
-  0,
+  "increment", // Method name
+  [], // Arguments
+  "30000000000000", // Gas
+  0, // Deposit
 );
 const transferAction = transactions.transfer(utils.format.parseNearAmount("1"));
 const actions = [callAction, transferAction];
