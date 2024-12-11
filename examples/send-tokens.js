@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 const { connect, keyStores, KeyPair, utils } = nearAPI;
 
 // Load environment variables
-dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env" }); // Path relative to the working directory
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 

@@ -32,8 +32,8 @@ const newAccountId = generateTestnetAccountId();
 const newKeyPair = KeyPair.fromRandom("ed25519");
 const newPublicKey = newKeyPair.getPublicKey().toString();
 const newPrivateKey = newKeyPair.toString();
-console.log("Public key", newPublicKey);
 console.log("Private key", newPrivateKey);
+console.log("Public key", newPublicKey);
 
 const createAccountResult = await account.functionCall({
   contractId: "testnet",
@@ -52,8 +52,8 @@ const newSubAccountId = generateSubAccountId(accountId);
 const newSubKeyPair = KeyPair.fromRandom("ed25519");
 const newSubPublicKey = newSubKeyPair.getPublicKey().toString();
 const newSubPrivateKey = newSubKeyPair.toString();
-console.log("Public key", newSubPublicKey);
 console.log("Private key", newSubPrivateKey);
+console.log("Public key", newSubPublicKey);
 
 const createSubAccountResult = await account.createAccount(
   newSubAccountId, // sub.example-account.testnet

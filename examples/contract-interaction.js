@@ -24,7 +24,7 @@ const account = await nearConnection.account(accountId);
 const url = `https://rpc.testnet.near.org`;
 const provider = new providers.JsonRpcProvider({ url });
 
-const viewCallResponse = await provider.query({
+const viewCallResult = await provider.query({
   request_type: "call_function",
   account_id: "guestbook.near-examples.testnet", // Contract account ID
   method_name: "total_messages", // Method to call
@@ -32,10 +32,10 @@ const viewCallResponse = await provider.query({
   finality: "optimistic", // Optimistic finality (or 'final' for final finality)
 });
 
-const viewCallResult = JSON.parse(
-  Buffer.from(viewCallResponse.result).toString(),
+const viewCallData = JSON.parse(
+  Buffer.from(viewCallResult.result).toString(),
 ); // Parse the result as JSON
-console.log(viewCallResult);
+console.log(viewCallData);
 
 // Make a function call to a contract
 const contractCallResult = await account.functionCall({
@@ -50,8 +50,7 @@ const contractCallResult = await account.functionCall({
 console.log(contractCallResult);
 
 // Deploy a contract to the account
-const contractPath = "contracts/contract.wasm";
-const transactionOutcome = await account.deployContract(
-  fs.readFileSync(contractPath), // path/contract.wasm
+const deployResult = await account.deployContract(
+  fs.readFileSync("contracts/contract.wasm"), // Path of contract WASM relative to the working directory
 );
-console.log(transactionOutcome);
+console.log(deployResult);

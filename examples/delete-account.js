@@ -7,11 +7,11 @@ const generateTestnetAccountId = () =>
 
 dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
-const accountId = process.env.ACCOUNT_ID;
+const beneficiaryAccountId = process.env.ACCOUNT_ID;
 
 const myKeyStore = new keyStores.InMemoryKeyStore();
 const keyPair = KeyPair.fromString(privateKey);
-await myKeyStore.setKey("testnet", accountId, keyPair);
+await myKeyStore.setKey("testnet", beneficiaryAccountId, keyPair);
 
 const connectionConfig = {
   networkId: "testnet",
@@ -20,22 +20,18 @@ const connectionConfig = {
 };
 const nearConnection = await connect(connectionConfig);
 
-const accountCreator = await nearConnection.account(accountId);
+const accountCreator = await nearConnection.account(beneficiaryAccountId);
 
 // First create a new account to be deleted
-const newAccountId = generateTestnetAccountId();
-// Generate a new key pair
+const accountToDeleteId = generateTestnetAccountId();
 const newKeyPair = KeyPair.fromRandom("ed25519");
 const newPublicKey = newKeyPair.getPublicKey().toString();
-const newPrivateKey = newKeyPair.toString();
-console.log("Public key", newPublicKey);
-console.log("Private key", newPrivateKey);
 
 await accountCreator.functionCall({
   contractId: "testnet",
   methodName: "create_account",
   args: {
-    new_account_id: newAccountId,
+    new_account_id: accountToDeleteId,
     new_public_key: newPublicKey,
   },
   gas: "300000000000000",
@@ -44,9 +40,10 @@ await accountCreator.functionCall({
 
 // Create an account object for the new account
 // and add the new key pair to the keystore
-const account = await nearConnection.account(newAccountId);
-await myKeyStore.setKey("testnet", newAccountId, newKeyPair);
+const accountToDelete = await nearConnection.account(accountToDeleteId);
+await myKeyStore.setKey("testnet", accountToDeleteId, newKeyPair);
 
 // Delete the account with account ID of the account object
-const deleteAccountResult = await account.deleteAccount(accountId); // example-beneficiary.testnet
+// specifying the beneficiary account ID
+const deleteAccountResult = await accountToDelete.deleteAccount(beneficiaryAccountId); // example-beneficiary.testnet
 console.log(deleteAccountResult);
