@@ -8,8 +8,8 @@ dotenv.config({ path: ".env" });
 const accountId = process.env.ACCOUNT_ID;
 
 // Create a keystore and add the key pair via credentials directory
-const CREDENTIALS_DIR = ".near-credentials";
-const credentialsPath = path.join(homedir(), CREDENTIALS_DIR);
+const credentialsDirectory = ".near-credentials";
+const credentialsPath = path.join(homedir(), credentialsDirectory);
 const myKeyStore = new keyStores.UnencryptedFileSystemKeyStore(credentialsPath);
 
 // Create a connection to the NEAR testnet

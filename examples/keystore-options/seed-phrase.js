@@ -1,21 +1,19 @@
 import { connect, keyStores, KeyPair, utils } from "near-api-js";
+import { parseSeedPhrase } from "near-seed-phrase";
 import dotenv from "dotenv";
-import fs from "fs";
 
 // Load environment variables
 dotenv.config({ path: ".env" });
+const seedPhrase = process.env.SEED_PHRASE;
 const accountId = process.env.ACCOUNT_ID;
 
-// Fetch the private key from a credentials file
-const credentialsPath = "credentials-file.json"; // Path relative to the working directory
-const credentials = JSON.parse(fs.readFileSync(credentialsPath));
-// Create a key pair from the private key
-const keyPair = KeyPair.fromString(credentials.private_key);
-// Create a keystore and add the key pair
+// Create a keystore and add the key pair via the seed phrase
+const { secretKey } = parseSeedPhrase(seedPhrase);
 const myKeyStore = new keyStores.InMemoryKeyStore();
-myKeyStore.setKey("testnet", accountId, keyPair);
+const keyPair = KeyPair.fromString(secretKey); // ed25519::5Fg2...
+await myKeyStore.setKey("testnet", accountId, keyPair);
 
-// Create a connection to the NEAR testnet
+// Create a connection to NEAR testnet
 const connectionConfig = {
   networkId: "testnet",
   keyStore: myKeyStore,
