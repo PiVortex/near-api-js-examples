@@ -1,10 +1,6 @@
 import { connect, keyStores, KeyPair, utils } from "near-api-js";
 import dotenv from "dotenv";
 
-// Random account ID generator
-const generateTestnetAccountId = () =>
-  Math.random().toString(36).substring(2, 10) + ".testnet";
-
 dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const beneficiaryAccountId = process.env.ACCOUNT_ID;
@@ -23,7 +19,8 @@ const nearConnection = await connect(connectionConfig);
 const accountCreator = await nearConnection.account(beneficiaryAccountId);
 
 // First create a new account to be deleted
-const accountToDeleteId = generateTestnetAccountId();
+// Generate a new account ID based on the current timestamp
+const accountToDeleteId = Date.now() + ".testnet";
 const newKeyPair = KeyPair.fromRandom("ed25519");
 const newPublicKey = newKeyPair.getPublicKey().toString();
 
@@ -45,5 +42,6 @@ await myKeyStore.setKey("testnet", accountToDeleteId, newKeyPair);
 
 // Delete the account with account ID of the account object
 // specifying the beneficiary account ID
-const deleteAccountResult = await accountToDelete.deleteAccount(beneficiaryAccountId); // example-beneficiary.testnet
+const deleteAccountResult =
+  await accountToDelete.deleteAccount(beneficiaryAccountId); // example-beneficiary.testnet
 console.log(deleteAccountResult);

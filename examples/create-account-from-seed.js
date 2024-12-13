@@ -2,10 +2,6 @@ import { connect, keyStores, KeyPair, utils } from "near-api-js";
 import { generateSeedPhrase } from "near-seed-phrase";
 import dotenv from "dotenv";
 
-// Random account ID generator
-const generateTestnetAccountId = () =>
-  Math.random().toString(36).substring(2, 10) + ".testnet";
-
 dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
@@ -24,13 +20,13 @@ const nearConnection = await connect(connectionConfig);
 const account = await nearConnection.account(accountId);
 
 // Create a .testnet account
-const newAccountId = generateTestnetAccountId();
+// Generate a new account ID based on the current timestamp
+const newAccountId = Date.now() + ".testnet";
 // Generate a new seed phrase
 const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
 console.log("Seed phrase", seedPhrase);
 console.log("Private key", secretKey);
 console.log("Public key", publicKey);
-
 
 const createAccountResult = await account.functionCall({
   contractId: "testnet",

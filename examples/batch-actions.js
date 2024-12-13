@@ -27,11 +27,10 @@ const callAction = transactions.functionCall(
   0, // Deposit
 );
 const transferAction = transactions.transfer(utils.format.parseNearAmount("1"));
-const actions = [callAction, transferAction];
 
 // Send the batch of actions
 const batchActionsResult = await account.signAndSendTransaction({
   receiverId: "counter.near-examples.testnet",
-  actions: actions,
+  actions: [callAction, transferAction],
 });
 console.log(batchActionsResult);

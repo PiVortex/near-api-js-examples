@@ -20,22 +20,46 @@ const nearConnection = await connect(connectionConfig);
 const account = await nearConnection.account(accountId);
 
 // Make a view call to a contract
-// Set up a new provider
-const url = `https://rpc.testnet.near.org`;
-const provider = new providers.JsonRpcProvider({ url });
+async function viewContract({
+  contractId,
+  methodName,
+  args = {},
+  finality = "optimistic",
+}) {
+  // Set up a new provider
+  const url = `https://rpc.testnet.near.org`;
+  const provider = new providers.JsonRpcProvider({ url });
 
-const viewCallResult = await provider.query({
-  request_type: "call_function",
-  account_id: "guestbook.near-examples.testnet", // Contract account ID
-  method_name: "total_messages", // Method to call
-  args_base64: "", // No args in this case (optional)
-  finality: "optimistic", // Optimistic finality (or 'final' for final finality)
+  // Convert the arguments to base64
+  const argsBase64 = args
+    ? Buffer.from(JSON.stringify(args)).toString("base64")
+    : "";
+
+  // Make the view call
+  const viewCallResult = await provider.query({
+    request_type: "call_function",
+    account_id: contractId,
+    method_name: methodName,
+    args_base64: argsBase64,
+    finality: finality,
+  });
+
+  // Parse the result
+  return JSON.parse(Buffer.from(viewCallResult.result).toString());
+}
+
+// Use the view call function
+const viewCallData = await viewContract({
+  contractId: "guestbook.near-examples.testnet",
+  methodName: "total_messages",
 });
-
-const viewCallData = JSON.parse(
-  Buffer.from(viewCallResult.result).toString(),
-); // Parse the result as JSON
 console.log(viewCallData);
+
+// If args are required, they can be passed in like this:
+// args: {
+//   from_index: "0",
+//   limit: "10"
+// }
 
 // Make a function call to a contract
 const contractCallResult = await account.functionCall({

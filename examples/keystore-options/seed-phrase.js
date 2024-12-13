@@ -7,8 +7,8 @@ dotenv.config({ path: ".env" });
 const seedPhrase = process.env.SEED_PHRASE;
 const accountId = process.env.ACCOUNT_ID;
 
-// Create a keystore and add the key pair via the seed phrase
-const { secretKey } = parseSeedPhrase(seedPhrase);
+// Create a keystore and add the key pair via a seed phrase
+const { secretKey } = parseSeedPhrase(seedPhrase); // "royal success river ..."
 const myKeyStore = new keyStores.InMemoryKeyStore();
 const keyPair = KeyPair.fromString(secretKey); // ed25519::5Fg2...
 await myKeyStore.setKey("testnet", accountId, keyPair);

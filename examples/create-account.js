@@ -1,14 +1,6 @@
 import { connect, keyStores, KeyPair, utils } from "near-api-js";
 import dotenv from "dotenv";
 
-// Random account ID generator
-const generateTestnetAccountId = () =>
-  Math.random().toString(36).substring(2, 10) + ".testnet";
-
-// Random sub account ID generator
-const generateSubAccountId = (accountId) =>
-  `sub-${Math.random().toString(36).substring(2, 10)}.${accountId}`;
-
 dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
@@ -27,7 +19,8 @@ const nearConnection = await connect(connectionConfig);
 const account = await nearConnection.account(accountId);
 
 // Create a .testnet account
-const newAccountId = generateTestnetAccountId();
+// Generate a new account ID based on the current timestamp
+const newAccountId = Date.now() + ".testnet";
 // Generate a new key pair
 const newKeyPair = KeyPair.fromRandom("ed25519");
 const newPublicKey = newKeyPair.getPublicKey().toString();
@@ -47,7 +40,8 @@ const createAccountResult = await account.functionCall({
 console.log(createAccountResult);
 
 // Create a sub account
-const newSubAccountId = generateSubAccountId(accountId);
+// Generate a new sub account ID based on the current timestamp
+const newSubAccountId = Date.now() + "." + accountId;
 // Generate a new key pair
 const newSubKeyPair = KeyPair.fromRandom("ed25519");
 const newSubPublicKey = newSubKeyPair.getPublicKey().toString();

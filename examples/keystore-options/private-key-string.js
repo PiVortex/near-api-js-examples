@@ -6,7 +6,7 @@ dotenv.config({ path: ".env" });
 const privateKey = process.env.PRIVATE_KEY;
 const accountId = process.env.ACCOUNT_ID;
 
-// Create a keystore and add the key pair via the private key string
+// Create a keystore and add the key pair via a private key string
 const myKeyStore = new keyStores.InMemoryKeyStore();
 const keyPair = KeyPair.fromString(privateKey); // ed25519::5Fg2...
 await myKeyStore.setKey("testnet", accountId, keyPair);
